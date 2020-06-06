@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29905.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Multi-Planner-API", "Multi-Planner-API\Multi-Planner-API.csproj", "{BEF27517-8679-4BF7-86AB-ADDD4A2B4609}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Multi_Planner.ServiceHandler", "Multi_Planner.ServiceHandler\Multi_Planner.ServiceHandler.csproj", "{F1746754-6D11-4E38-A6D3-FA5CD6EAE16A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Multi_Planner.WebAPI", "Multi_Planner.WebAPI\Multi_Planner.WebAPI.csproj", "{FBF01ED0-16AF-4339-AC4D-BB68DCD34F16}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BEF27517-8679-4BF7-86AB-ADDD4A2B4609}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BEF27517-8679-4BF7-86AB-ADDD4A2B4609}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BEF27517-8679-4BF7-86AB-ADDD4A2B4609}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BEF27517-8679-4BF7-86AB-ADDD4A2B4609}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1746754-6D11-4E38-A6D3-FA5CD6EAE16A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1746754-6D11-4E38-A6D3-FA5CD6EAE16A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1746754-6D11-4E38-A6D3-FA5CD6EAE16A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1746754-6D11-4E38-A6D3-FA5CD6EAE16A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBF01ED0-16AF-4339-AC4D-BB68DCD34F16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBF01ED0-16AF-4339-AC4D-BB68DCD34F16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBF01ED0-16AF-4339-AC4D-BB68DCD34F16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBF01ED0-16AF-4339-AC4D-BB68DCD34F16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
