@@ -9,4 +9,8 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Multi-Planner.DataModel\Multi-Planner.DataModel.csproj" />
+  </ItemGroup>
+
 </Project>

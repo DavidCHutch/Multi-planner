@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Multi_Planner.DataModel;
 using Multi_Planner.Services.Interfaces;
 
 namespace Multi_Planner.Services.Services
@@ -13,11 +14,9 @@ namespace Multi_Planner.Services.Services
 
         }
 
-        public async Task<bool> Login(string username, string password)
+        public Task<ServiceResponse<bool>> Login(string username, string password)
         {
-
-
-            return true;
+            throw new NotImplementedException();
         }
     }
 }

@@ -10,8 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-
-using Multi_Planner.Services;
+using Multi_Planner.Services.Interfaces;
+using Multi_Planner.Services.Services;
 
 namespace Multi_Planner.WebAPI
 {
@@ -28,9 +28,10 @@ namespace Multi_Planner.WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-
-            // Uses the repo to add known services.
-            ServiceRepository.AddServices(services);
+            
+            // Add known services.
+            services.AddScoped<ILoginService, LoginService>();
+            services.AddHttpClient<IFacebookService, FacebookService>();
 
         }
 
