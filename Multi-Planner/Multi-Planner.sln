@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Multi_Planner.WebAPI", "Mul
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Multi-Planner.DataModel", "Multi-Planner.DataModel\Multi-Planner.DataModel.csproj", "{797F8487-9303-402B-A4DE-F1B3ABAD59C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Multi-Planner.Services", "Multi-Planner.Services\Multi-Planner.Services.csproj", "{88445AEA-96BE-47B3-8446-CD86E2BAF9F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Multi-Planner.Services", "Multi-Planner.Services\Multi-Planner.Services.csproj", "{88445AEA-96BE-47B3-8446-CD86E2BAF9F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
