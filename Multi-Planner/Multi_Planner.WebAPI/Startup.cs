@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Multi_Planner.Services.Interfaces;
 using Multi_Planner.Services.Services;
+using Sentry;
 
 namespace Multi_Planner.WebAPI
 {

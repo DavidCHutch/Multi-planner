@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Multi_Planner.Services.Interfaces;
 using Multi_Planner.Services.Services;
 using Multi_Planner.DataModel;
+using Microsoft.AspNetCore.Cors;
 
 namespace Multi_Planner.WebAPI.Controllers
 {
@@ -36,6 +37,26 @@ namespace Multi_Planner.WebAPI.Controllers
             }
 
             return Json(loginRes);
+        }
+        
+        [HttpGet]
+        [Route("api/Login/Facebook")]
+        public async Task<IActionResult> LoginFacebook(string userid, string accessToken, string expiresIn)
+        {
+            string result = "Empty";
+
+            if (string.IsNullOrEmpty(userid) || string.IsNullOrEmpty(accessToken) || string.IsNullOrEmpty(expiresIn))
+            {
+                result = "Missing Parameter";
+            }
+            else
+            {
+                /*var result = await lService.Login(username, password);
+
+                loginRes = "Login " + (result.Result ? "succesful" : "failed");*/
+            }
+
+            return Json(result);
         }
     }
 }

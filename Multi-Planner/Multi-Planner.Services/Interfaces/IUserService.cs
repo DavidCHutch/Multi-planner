@@ -6,5 +6,6 @@ namespace Multi_Planner.Services.Interfaces
 {
     public interface IUserService : IService
     {
+
     }
 }

@@ -6,9 +6,20 @@ namespace Multi_Planner.DataModel
 {
     public class FacebookAccessToken
     {
-        string access_token;
-        string expires_in;
+        public FacebookAccessToken(string _accessToken, int _expiresIn)
+        {
+            accessToken = _accessToken;
+            expiresIn = _expiresIn;
+            timeCreated = DateTime.UtcNow;
+        }
 
-        public TimeSpan GetTimeTillExpiration { get { throw new NotImplementedException(); /*TODO Implement*/ } }
+        string accessToken;
+        int expiresIn;
+        DateTime timeCreated;
+        
+        /// <summary>
+        /// Checks if the token is expired. Imprecise up to a few seconds.
+        /// </summary>
+        public bool IsExpired { get { return timeCreated.AddSeconds((double)expiresIn) > DateTime.UtcNow; } }
     }
 }
