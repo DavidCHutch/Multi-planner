@@ -31,7 +31,7 @@ namespace Multi_Planner.WebAPI
             
             // Add known services.
             services.AddScoped<ILoginService, LoginService>();
-            services.AddHttpClient<IFacebookService, FacebookService>();
+            services.AddScoped<IUserService, UserService>();
 
         }
 

@@ -7,7 +7,8 @@ namespace Multi_Planner.DataModel
     public class FacebookAccessToken
     {
         string access_token;
-        string type;
         string expires_in;
+
+        public TimeSpan GetTimeTillExpiration { get { throw new NotImplementedException(); /*TODO Implement*/ } }
     }
 }
