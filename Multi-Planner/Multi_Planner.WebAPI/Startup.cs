@@ -53,7 +53,6 @@ namespace Multi_Planner.WebAPI
             {
                 builder.AllowAnyHeader();
                 builder.AllowAnyMethod();
-                builder.AllowCredentials();
                 builder.AllowAnyOrigin(); // For anyone access.
                                           //corsBuilder.WithOrigins("http://localhost:56573"); // for a specific url.
             });

@@ -41,7 +41,6 @@ namespace Multi_Planner.WebAPI.Controllers
 
         [HttpGet]
         [Route("api/Login/Facebook")]
-        [DisableCors]
         public async Task<IActionResult> LoginFacebook(string userid, string accessToken)
         {
             if (string.IsNullOrEmpty(userid) || string.IsNullOrEmpty(accessToken))
