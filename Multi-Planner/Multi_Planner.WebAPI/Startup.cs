@@ -29,6 +29,8 @@ namespace Multi_Planner.WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddCors();
             
             // Add known services.
             services.AddScoped<ILoginService, LoginService>();
@@ -45,6 +47,16 @@ namespace Multi_Planner.WebAPI
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            //Cors
+            app.UseCors(builder =>
+            {
+                builder.AllowAnyHeader();
+                builder.AllowAnyMethod();
+                builder.AllowCredentials();
+                builder.AllowAnyOrigin(); // For anyone access.
+                                          //corsBuilder.WithOrigins("http://localhost:56573"); // for a specific url.
+            });
 
             app.UseHttpsRedirection();
 
