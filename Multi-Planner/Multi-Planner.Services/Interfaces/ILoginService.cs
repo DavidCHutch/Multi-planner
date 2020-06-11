@@ -9,5 +9,6 @@ namespace Multi_Planner.Services.Interfaces
     public interface ILoginService : IService
     {
         Task<ServiceResponse<bool>> Login(string username, string password);
+        Task<ServiceResponse<bool>> LoginFacebook(string userId, string accessToken);
     }
 }

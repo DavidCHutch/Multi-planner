@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Multi_Planner.Services.Interfaces;
-using Multi_Planner.Services.Services;
 using Multi_Planner.DataModel;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 
 namespace Multi_Planner.WebAPI.Controllers
 {
@@ -41,22 +41,24 @@ namespace Multi_Planner.WebAPI.Controllers
         
         [HttpGet]
         [Route("api/Login/Facebook")]
-        public async Task<IActionResult> LoginFacebook(string userid, string accessToken, string expiresIn)
+        public async Task<IActionResult> LoginFacebook(string userid, string accessToken)
         {
-            string result = "Empty";
-
-            if (string.IsNullOrEmpty(userid) || string.IsNullOrEmpty(accessToken) || string.IsNullOrEmpty(expiresIn))
+            if (string.IsNullOrEmpty(userid) || string.IsNullOrEmpty(accessToken))
             {
-                result = "Missing Parameter";
+                return BadRequest("Missing Parameters");
             }
             else
             {
-                /*var result = await lService.Login(username, password);
+                var serviceResult = await lService.LoginFacebook(userid, accessToken);
 
-                loginRes = "Login " + (result.Result ? "succesful" : "failed");*/
+                switch (serviceResult.Status)
+                {
+                    case ServiceResponseStatus.Ok:
+                        return Ok();
+                    default:
+                        return BadRequest();
+                }
             }
-
-            return Json(result);
         }
     }
 }

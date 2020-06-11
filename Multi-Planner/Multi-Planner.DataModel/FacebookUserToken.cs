@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Multi_Planner.DataModel
 {
-    public class FacebookAccessToken
+    public class FacebookUserToken
     {
-        public FacebookAccessToken(string _accessToken, int _expiresIn)
+        public FacebookUserToken(string _accessToken, int _expiresIn)
         {
             accessToken = _accessToken;
             expiresIn = _expiresIn;
