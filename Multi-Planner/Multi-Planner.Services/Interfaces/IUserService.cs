@@ -8,8 +8,8 @@ namespace Multi_Planner.Services.Interfaces
 {
     public interface IUserService : IService
     {
-        Task<ServiceResponse<User>> GetUserByFacebookId(string userId);
-        Task<ServiceResponse<User>> CreateFacebookUser(string userId, string accessToken);
+        Task<User> GetUserByFacebookId(string userId);
+        Task<User> CreateFacebookUser(string userId, string accessToken);
 
     }
 }

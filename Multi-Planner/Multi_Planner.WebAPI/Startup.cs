@@ -32,7 +32,7 @@ namespace Multi_Planner.WebAPI
 
             services.AddCors();
             
-            // Add known services.
+            // Add services.
             services.AddScoped<ILoginService, LoginService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IFacebookService, FacebookService>();

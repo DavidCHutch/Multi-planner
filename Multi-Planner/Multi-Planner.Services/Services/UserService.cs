@@ -9,9 +9,9 @@ namespace Multi_Planner.Services.Services
 {
     public class UserService : IUserService
     {
-        public async Task<ServiceResponse<User>> CreateFacebookUser(string userId, string accessToken)
+        public async Task<User> CreateFacebookUser(string userId, string accessToken)
         {
-            //TODO get infor from facebook service
+            //TODO get info from facebook service
             User user = new User()
             {
                 FacebookUserID = userId,
@@ -20,17 +20,17 @@ namespace Multi_Planner.Services.Services
 
             MockDB.GetInstance().SaveUser(user);
 
-            return new ServiceResponse<User>(ServiceResponseStatus.Ok, user);
+            return user;
         }
 
-        public async Task<ServiceResponse<User>> GetUserByFacebookId(string userId)
+        public async Task<User> GetUserByFacebookId(string userId)
         {
             User user;
             int count; // Purly for dev purpose. Remove this before release.
             
             (user, count) = MockDB.GetInstance().RetrieveUserByFacebookId(userId);
 
-            return new ServiceResponse<User>(ServiceResponseStatus.Ok, "nr of result: " + count, user);
+            return user;
         }
     }
 }

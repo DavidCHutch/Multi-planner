@@ -9,9 +9,9 @@ namespace Multi_Planner.Services.Services
 {
     public class FacebookService : IFacebookService
     {
-        public async Task<ServiceResponse<bool>> AuthenticateToken(string accessToken, string userId = "")
+        public async Task<bool> AuthenticateToken(string accessToken, string userId = "")
         {
-            return new ServiceResponse<bool>(ServiceResponseStatus.Ok, true);
+            return true;
         }
     }
 }

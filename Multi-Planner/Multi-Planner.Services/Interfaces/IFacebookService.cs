@@ -8,6 +8,6 @@ namespace Multi_Planner.Services.Interfaces
 {
     public interface IFacebookService :IService
     {
-        Task<ServiceResponse<bool>> AuthenticateToken(string accessToken, string userId = "");
+        Task<bool> AuthenticateToken(string accessToken, string userId = "");
     }
 }

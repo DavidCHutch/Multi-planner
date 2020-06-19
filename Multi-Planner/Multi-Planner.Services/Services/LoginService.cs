@@ -24,54 +24,39 @@ namespace Multi_Planner.Services.Services
             _fService = fService;
         }
 
-        public async Task<ServiceResponse<bool>> Login(string username, string password)
+        public Task<bool> Login(string username, string password)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<ServiceResponse<bool>> LoginFacebook(string userId, string accessToken)
+        public async Task<bool> LoginFacebook(string userId, string accessToken)
         {
-            var fResult = await _fService.AuthenticateToken(accessToken, userId);
+            var isAuthentic = await _fService.AuthenticateToken(accessToken, userId);
 
-            if (fResult.Status != ServiceResponseStatus.Ok)
+            if (isAuthentic)
             {
-                return new ServiceResponse<bool>(fResult.Status, fResult.Message, false);
-            }
-
-            if (fResult.Result)
-            {
-                var uResult = await _uService.GetUserByFacebookId(userId);
-
-                if (uResult.Status != ServiceResponseStatus.Ok)
-                {
-                    return new ServiceResponse<bool>(uResult.Status, uResult.Message, false);
-                }
-
-                User user = uResult.Result;
+                // TODO merge this into the create method and remove this call.
+                User user = await _uService.GetUserByFacebookId(userId);
 
                 if (user == null)
                 {
-                    var createResult = await _uService.CreateFacebookUser(userId, accessToken);
+                    user = await _uService.CreateFacebookUser(userId, accessToken);
 
-                    if (createResult.Status != ServiceResponseStatus.Ok)
-                    {
-                        return new ServiceResponse<bool>(ServiceResponseStatus.Error, "Could not create user. \n" + createResult.Message, false);
-                    }
-
-                    user = createResult.Result;
+                    if (user == null)
+                        return false;
                 }
+                else
+                    return false;
 
                 user.LastLogin = DateTime.Now;
 
-                //TODO Should be done properly throught the user service
+                //TODO Should be done properly, not with a Mock
                 MockDB.GetInstance().UpdateUser(user);
 
-                return new ServiceResponse<bool>(ServiceResponseStatus.Ok, true); ;
+                return true; ;
             }
             else
-            {
-                return new ServiceResponse<bool>(ServiceResponseStatus.Error, "Could not authenticate token", false);
-            }
+                return false;
         }
     }
 }
