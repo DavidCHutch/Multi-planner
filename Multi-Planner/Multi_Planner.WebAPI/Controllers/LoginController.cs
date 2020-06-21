@@ -34,7 +34,7 @@ namespace Multi_Planner.WebAPI.Controllers
             }
             else
             {
-                var result = await lService.Login(username, password);
+                var result = await _lService.Login(username, password);
 
                 loginRes = "Login " + (result ? "succesful" : "failed");
            }
@@ -52,7 +52,7 @@ namespace Multi_Planner.WebAPI.Controllers
             }
             else
             {
-                bool succes = await lService.LoginFacebook(userid, accessToken);
+                bool succes = await _lService.LoginFacebook(userid, accessToken);
 
                 if(succes)
                     return Ok();

@@ -5,36 +5,57 @@ using System.Xml.Linq;
 using MongoDB.Driver;
 using MongoDB.Bson;
 using MongoDB.Driver.Core.Configuration;
+using Multi_Planner.DataModel;
+using Multi_Planner.Services.Interfaces;
+using System.Threading.Tasks;
+using log4net;
 
 namespace Multi_Planner.Services.Services
 {
 
-    public class MongoService
+    public class MongoService : IMongoService
     {
-        //TODO Hide Somewhere
+        //TODO Get from somewhere secure
         readonly string ConnectionString = "mongodb://127.0.0.1:27017/?gssapiServiceName=mongodb";
+        readonly string DatabaseName = "Multi-Planner-DB";
 
-        public MongoService()
+        readonly ILog Log;
+        readonly MongoClient client;
+        readonly IMongoDatabase database;
+
+        public MongoService(ILog log)
         {
-            var mongoClient = new MongoClient("mongodb://127.0.0.1:27017/?gssapiServiceName=mongodb");
-            var database = mongoClient.GetDatabase("Multi-Planner-DB");
-            var collection = database.GetCollection<BsonDocument>("Users");
-
-            var document = new BsonDocument()
-                {
-                    { "Name", "Test" },
-                    { "qty", 100 },
-                    { "tags", new BsonArray { "cotton" } },
-                    { "size", new BsonDocument { { "h", 28 }, { "w", 35.5 }, { "uom", "cm" } } }
-                };
-
-            collection.InsertOne(document);
+            Log = log;
+            client = new MongoClient(ConnectionString);
+            database = client.GetDatabase(DatabaseName);
         }
 
-        public void saveUser()
+        public async Task<bool> InsertItem(string collectionName, BsonDocument document)
         {
+            try
+            {
+                Log.Info("Attepmting to insert item into " + collectionName + " in database.");
 
+                var collection = database.GetCollection<BsonDocument>(collectionName);
+
+                await collection.InsertOneAsync(document);
+
+                Log.Info("Item inserted into " + collectionName + " in database.");
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Exception while inserting item into " + collectionName + " in the database.", ex);
+
+                return false;
+            }
         }
+    }
 
+    //TODO move this somewhere else
+    public class Collections
+    {
+        public readonly static string Users = "Users";
     }
 }

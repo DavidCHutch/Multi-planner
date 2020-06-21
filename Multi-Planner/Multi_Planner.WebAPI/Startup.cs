@@ -44,6 +44,7 @@ namespace Multi_Planner.WebAPI
             services.AddScoped(factory => LogManager.GetLogger(GetType()));
 
             // Add services.
+            services.AddScoped<IMongoService, MongoService>();
             services.AddScoped<ILoginService, LoginService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IFacebookService, FacebookService>();

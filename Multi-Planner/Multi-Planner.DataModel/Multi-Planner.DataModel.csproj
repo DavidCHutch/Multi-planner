@@ -5,4 +5,8 @@
     <RootNamespace>Multi_Planner.DataModel</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="MongoDB.Bson" Version="2.10.4" />
+  </ItemGroup>
+
 </Project>
