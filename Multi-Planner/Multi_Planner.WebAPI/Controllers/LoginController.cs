@@ -7,16 +7,19 @@ using Multi_Planner.Services.Interfaces;
 using Multi_Planner.DataModel;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
+using log4net;
 
 namespace Multi_Planner.WebAPI.Controllers
 {
     public class LoginController : Controller
     {
-        private readonly ILoginService lService;
+        private readonly ILog Log;
+        private readonly ILoginService _lService;
 
-        public LoginController(ILoginService _lService)
+        public LoginController(ILog log, ILoginService lService)
         {
-            lService = _lService;
+            _lService = lService;
+            Log = log;
         }
 
         [HttpGet]
@@ -34,7 +37,7 @@ namespace Multi_Planner.WebAPI.Controllers
                 var result = await lService.Login(username, password);
 
                 loginRes = "Login " + (result ? "succesful" : "failed");
-            }
+           }
 
             return Json(loginRes);
         }

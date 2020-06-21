@@ -8,5 +8,6 @@ namespace Multi_Planner.WebAPI.Controllers
 {
     public class UserController : Controller
     {
+
     }
 }
