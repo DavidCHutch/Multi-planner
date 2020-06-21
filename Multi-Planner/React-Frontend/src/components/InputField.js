@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 class InputField extends Component{
   render() {
     return (
-    <div className="inputField">
+    <div className={this.props.className}>
         <input
-            className='input'
+            className={'input'}
             type={this.props.type}
             placeholder={this.props.placeholder}
             value={this.props.value}

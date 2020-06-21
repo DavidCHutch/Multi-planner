@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
-import ImputField from './InputField';
-import SubmitButton from './SubmitButton';
-import UserStore from '../stores/UserStore';
-import InputField from './InputField';
+// import ImputField from './InputField';
+import SubmitButton from '../Buttons/SubmitButton';
+import InputField from '../InputField';
+import Facebook from '../Facebook';
+import '../../resources/scss/loginform.scss';
 
 class LoginForm extends Component{
 
   constructor(props){
     super(props);
     this.state = {
-      username: '',
+      email: '',
       password: '',
       buttonDisabled: false
     }
@@ -20,7 +21,7 @@ class LoginForm extends Component{
    */
   setInputValue(property, val){
     val = val.trim();
-    if(val.length > 25){
+    if(val.length > 50){
       return;
     }
     this.setState({
@@ -30,14 +31,18 @@ class LoginForm extends Component{
 
   resetForm(){
     this.setState({
-      username: '',
+      email: '',
       password: '',
       buttonDisabled: false
     })
   }
 
+  doRefreshPage() {
+    window.location.reload(false);
+  }
+
   async doLogin(){
-    if(!this.state.username){
+    if(!this.state.email){
       return;
     }
     if(!this.state.password){
@@ -49,22 +54,24 @@ class LoginForm extends Component{
     })
 
     try{
-      let res = await fetch('/login', {
+      let res = await fetch('/api/login', {
         method: 'post',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          username: this.state.username,
+          email: this.state.email,
           password: this.state.password
         })
       })
 
       let result = await res.json();
       if(result && result.success){
-        UserStore.isLogged = true;
-        UserStore.username = result.username;
+        sessionStorage.setItem('userName', JSON.stringify(result.name));
+        sessionStorage.setItem('userPicture', JSON.stringify(result.picture));
+        sessionStorage.setItem('isloggedIn', true);
+        //TODO REDIRECT TO MAIN PAGE
       }
       else if(result && result.success === false){
         this.resetForm();
@@ -82,15 +89,20 @@ class LoginForm extends Component{
   render() {
     return (
     <div className="loginForm">
-        Log in
+        <div className="loginForm__title">
+          <h2>Log in</h2>
+        </div>
+        
         <InputField
+          className="loginForm__field"
           type='text'
-          placeholder='Username'
-          value={this.state.username ? this.state.username : ''}
-          onChange={ (val) => this.setInputValue('username', val) }
+          placeholder='Email'
+          value={this.state.email ? this.state.email : ''}
+          onChange={ (val) => this.setInputValue('email', val) }
         />
 
         <InputField
+          className="loginForm__field"
           type='password'
           placeholder='Password'
           value={this.state.password ? this.state.password : ''}
@@ -98,10 +110,15 @@ class LoginForm extends Component{
         />
 
         <SubmitButton
+          className="loginForm__button"
           text='Login'
           disabled={this.state.buttonDisabled}
           onClick={ () => this.doLogin()}
         />
+
+        <div className="loginForm__buttonForeign">
+          <Facebook value="Sign up with Facebook"/>
+        </div>
 
     </div>
     );

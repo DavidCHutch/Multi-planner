@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-import { observer } from 'mobx-react';
 import './App.css';
-// import Facebook from './components/Facebook';
-// import LoginForm from './components/LoginForm';
-// import Loading from './components/Loading';
-// import UserStore from './stores/UserStore';
-// import SubmitButton from './components/SubmitButton';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import NavigationBar from './components/NavigationBar';
+import { GetUserData } from './components/Data/UserData';
 
 import { 
   BrowserRouter as Router, 
@@ -16,81 +13,34 @@ import {
 } from "react-router-dom";
 
 //Pages
-import MainPage from "./pages";
-import ErrorPage from "./pages/Error";
-import LoginPage from "./pages/login";
 
-class App extends Component {
-  render(){
-    return (
-      <Router>
-        <Switch> 
-          <Route exact path="/" component={MainPage}/>
-          <Route exact path="/login" component={LoginPage}/>
-          <Route exact path="/error" component={ErrorPage}/>
-          <Redirect to="/error"/>
-        </Switch>
-      </Router>
-     );
-  }
+import MainPage from "./pages";
+import ContactPage from "./pages/contact";
+import ErrorPage from "./pages/error";
+import LoginPage from "./pages/login";
+import CreateUserPage from "./pages/createUser";
+import DashBoardPage from "./pages/dashBoard";
+
+class App extends Component {  
   
-  // render(){
-  //   return (
-  //     <div className="app">
-  //       <div className="container">
-  //         <LoginForm/>
-  //         <Facebook/>
-  //         <Loading/>
-  //       </div>
-  //     </div>
-  //   );
-  // }
+
+  render(){
+      return (
+        <React.Fragment>
+          <NavigationBar/>
+            <Router>
+              <Switch> 
+                {GetUserData() ? <Route exact path="/" component={DashBoardPage}/> : <Route exact path="/" component={MainPage}/>}
+                <Route exact path="/contact" component={ContactPage}/>
+                <Route exact path="/createUser" component={CreateUserPage}/>
+                {GetUserData() ? <Redirect to="/"/> : <Route exact path="/login" component={LoginPage}/> }
+                <Route exact path="/error" component={ErrorPage}/>
+                <Redirect to="/error"/>
+              </Switch>
+            </Router>
+        </React.Fragment>
+       );
+  }
 }
 
-// class App extends Component{
-  // render() {
-  //   if(UserStore.loading){
-  //     return (
-  //       <div className="app">
-  //         <div className='container'>
-  //           Loading, please wait...
-  //         </div>
-  //       </div>
-  //     );
-  //   }
-  //   else{
-  //     if(UserStore.isLoggedIn){
-  //       return (
-  //         <div className="app">
-  //           <div className='container'>
-  //             Welcome {UserStore.username}
-  //             <SubmitButton 
-  //               text={'Log out'}
-  //               disabled={false}
-  //               onClick={ () => this.doLogout() }
-  //             />
-  //           </div>
-  //         </div>
-  //       );
-  //     }
-  //     return (
-  //       <div className="app">
-  //         <div className='container'>
-  //           <LoginForm />
-  //         </div>
-  //       </div>
-  //     );
-    //   return <Router>
-    //   <Switch> 
-    //     <Route exact path="/" component={MainPage}/>
-    //     <Route exact path="/login" component={LoginPage}/>
-    //     <Route exact path="/404" component={NotFoundPage}/>
-    //     <Route exact path="/users" component={UsersPage}/>
-    //     <Redirect to="/404"/>
-    //   </Switch>
-    // </Router>;
-  //   }
-  // }
-// }
-
-export default observer (App);
+export default App;
