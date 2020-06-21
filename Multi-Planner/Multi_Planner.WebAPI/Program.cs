@@ -23,7 +23,7 @@ namespace Multi_Planner.WebAPI
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                    webBuilder.UseSentry();
+                    webBuilder.UseSentry("https://e01bf1426bb54209846847a6bd2acbd7@o405682.ingest.sentry.io/5271798");
                 });
     }
 }

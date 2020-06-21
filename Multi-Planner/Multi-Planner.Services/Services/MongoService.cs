@@ -4,12 +4,16 @@ using System.Text;
 using System.Xml.Linq;
 using MongoDB.Driver;
 using MongoDB.Bson;
+using MongoDB.Driver.Core.Configuration;
 
 namespace Multi_Planner.Services.Services
 {
 
     public class MongoService
     {
+        //TODO Hide Somewhere
+        readonly string ConnectionString = "mongodb://127.0.0.1:27017/?gssapiServiceName=mongodb";
+
         public MongoService()
         {
             var mongoClient = new MongoClient("mongodb://127.0.0.1:27017/?gssapiServiceName=mongodb");
