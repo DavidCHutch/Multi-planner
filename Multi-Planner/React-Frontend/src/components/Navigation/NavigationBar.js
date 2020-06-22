@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Nav, Navbar, Form, Button, FormControl, Container } from 'react-bootstrap';
 import styled from 'styled-components';
-import { GetUserData } from '../components/Data/UserData';
-import Logo from '../resources/images/Logo.svg';
-import '../resources/scss/header.scss'
+import { GetUserData } from '../Data/UserData';
+import Logo from '../../resources/images/Logo.svg';
+import '../../resources/scss/header.scss'
 
 const Styles = styled.div`
     .navbar {

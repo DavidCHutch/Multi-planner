@@ -10,9 +10,7 @@ class LoginPage extends Component{
             <Container className="container d-flex align-items-center">
                 <Row className="container__row">
                     <Col className="container__col">
-                        <div>
-                            <LoginForm/>
-                        </div>
+                        <LoginForm/>
                     </Col>
                 </Row>
             </Container>

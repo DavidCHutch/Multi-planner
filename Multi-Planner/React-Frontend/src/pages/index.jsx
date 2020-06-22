@@ -18,9 +18,7 @@ class MainPage extends Component{
                         <img src={PageImage} className="rounded mx-auto sometimes-hidden-img" alt="loading..." width={300}/>
                     </Col>
                     <Col className="container__col">
-                        <div>
-                            <CreateUserForm/>
-                        </div>
+                        <CreateUserForm/>
                     </Col>
                 </Row>
             </Container>

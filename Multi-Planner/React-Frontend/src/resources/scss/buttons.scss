@@ -26,5 +26,27 @@
         display: none;
     }
    }
-    
+}
+
+.toggle-button{
+    display: flex;
+    flex-direction: column;
+    height: 30px;
+    width: 36px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    justify-content: space-around;
+    padding: 0;
+    box-sizing: border-box;
+
+    &:focus{
+        outline: none;
+    }
+
+    &__line{
+        width: 30px;
+        height: 2px;
+        background: white;
+    }
 }

@@ -17,24 +17,6 @@ body, html, #root, .app {
   background-color:#A8D0E6;
 }
 
-.containerLight {
-  height: auto;
-}
-
-.logTitle{
-  text-align: center;
-  vertical-align: middle;
-}
-
-.loginForm {
- box-sizing: border-box;
- /* width: 100%; */
- /* max-width: 400px; */
- /* padding-left: 20px;
- padding-right: 20px; */
- margin-bottom: 20px;
-}
-
 .inputField {
  padding-bottom: 16px;
 }

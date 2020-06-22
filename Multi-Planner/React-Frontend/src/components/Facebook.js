@@ -43,6 +43,8 @@ export default class LoginFacebook extends Component{
                         // exceptions from actual bugs in components.
                         (error) => {
                             console.log(error);
+                            alert(error);
+                            return;
                         }
                 );
                 window.location.reload(false);
@@ -114,7 +116,7 @@ export default class LoginFacebook extends Component{
                             <img 
                                 className='facebookBtn__img'
                                 src="https://static.xx.fbcdn.net/rsrc.php/v3/yN/r/szGrb_tkxMW.png"
-                                alt
+                                alt=""
                                 height="24"
                                 width="24"
                             />
