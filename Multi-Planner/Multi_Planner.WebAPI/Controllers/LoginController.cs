@@ -58,7 +58,7 @@ namespace Multi_Planner.WebAPI.Controllers
             return Ok(response);
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("api/Login/Facebook")]
         public async Task<IActionResult> LoginFacebook([FromBody] FacebookLoginViewModel flvm)
         {
@@ -80,7 +80,7 @@ namespace Multi_Planner.WebAPI.Controllers
             else if (user != null)
             {
                 // user exists
-                return Ok(ResponseViewModel.GetSuccessModel("User exists.")) ;
+                return Ok(ResponseViewModel.GetSuccessModel("Facebook user was logged in.")) ;
             }
 
             //User doesnt exist, create it.
@@ -95,7 +95,7 @@ namespace Multi_Planner.WebAPI.Controllers
 
             //Response
             Log.Info("Login flow Succes");
-            return Ok(ResponseViewModel.GetSuccessModel("Facebook user was logged in."));
+            return Ok(ResponseViewModel.GetSuccessModel("Facebook user was created and logged in."));
 
         }
     }
