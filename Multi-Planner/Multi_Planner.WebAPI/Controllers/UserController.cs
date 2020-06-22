@@ -29,7 +29,7 @@ namespace Multi_Planner.WebAPI.Controllers
             Log.Info("Create user flow initiated");
 
             //Validate
-            if (cuvm == null || string.IsNullOrEmpty(cuvm.firstName) || string.IsNullOrEmpty(cuvm.lastName) || string.IsNullOrEmpty(cuvm.lastName))
+            if (cuvm == null || string.IsNullOrEmpty(cuvm.firstName) || string.IsNullOrEmpty(cuvm.email) || string.IsNullOrEmpty(cuvm.password))
             {
                 string msg = "One or more values are not set.";
                 Log.Warn(msg);
