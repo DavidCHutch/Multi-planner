@@ -13,6 +13,7 @@ namespace Multi_Planner.DataModel
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
+        public string FullName { get { return FirstName + " " + LastName; } }
 
         public string Email { get; set; }
 
@@ -23,6 +24,6 @@ namespace Multi_Planner.DataModel
 
         public string FacebookUserID { get; set; }
 
-        public FacebookUserToken FacebookAcessToken { get; set; }
+        public FacebookUserToken FacebookAcessToken { get; set; }        
 
     }}

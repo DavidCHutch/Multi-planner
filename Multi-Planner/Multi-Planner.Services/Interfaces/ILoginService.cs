@@ -8,7 +8,7 @@ namespace Multi_Planner.Services.Interfaces
 {
     public interface ILoginService : IService
     {
-        Task<bool> Login(string username, string password);
-        Task<bool> LoginFacebook(string userId, string accessToken);
+        Task<User> Login(string email, string password);
+        Task<User> LoginFacebook(string userId);
     }
 }

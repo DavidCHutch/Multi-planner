@@ -33,7 +33,7 @@ namespace Multi_Planner.WebAPI.Controllers
             {
                 string msg = "One or more values are not set.";
                 Log.Warn(msg);
-                return BadRequest(new ErrorViewModel() { Message = msg});
+                return BadRequest(ResponseViewModel.GetErrorModel(msg));
             }
             
             //Act
@@ -43,10 +43,10 @@ namespace Multi_Planner.WebAPI.Controllers
             {
                 string msg = "Could not create user.";
                 Log.Warn(msg);
-                return BadRequest(new ErrorViewModel() { Message = msg });
+                return BadRequest(ResponseViewModel.GetErrorModel(msg));
             }
 
-            var response = new CreateUserResponseViewModel();
+            var response = ResponseViewModel.GetSuccessModel("User was successfully created.");
 
             //Response
             Log.Info("Create User flow Succes");

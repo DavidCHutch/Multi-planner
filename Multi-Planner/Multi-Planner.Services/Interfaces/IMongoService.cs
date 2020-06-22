@@ -10,5 +10,7 @@ namespace Multi_Planner.Services.Interfaces
     public interface IMongoService
     {
         Task<bool> InsertItem(string collectionName, BsonDocument document);
+        Task<List<BsonDocument>> FindItems(string collectionName, string field, string value);
+
     }
 }

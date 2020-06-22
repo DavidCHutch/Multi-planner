@@ -6,57 +6,109 @@ using Multi_Planner.DataModel;
 using Multi_Planner.Services.Interfaces;
 using Multi_Planner.Services;
 using System.Runtime.InteropServices.ComTypes;
+using log4net;
+using System.Linq;
 
 namespace Multi_Planner.Services.Services
 {
     public class LoginService : ILoginService
     {
-        private readonly MockDB db;
+        private readonly ILog Log;
+        private readonly IMongoService _dbService;
         private readonly IUserService _uService;
         private readonly IFacebookService _fService;
 
         public LoginService(
+            ILog log,
+            IMongoService dbService,
             IUserService uService,
             IFacebookService fService)
         {
-            db = MockDB.GetInstance();
+            Log = log;
+            _dbService = dbService;
             _uService = uService;
             _fService = fService;
         }
 
-        public Task<bool> Login(string username, string password)
+        public async Task<User> Login(string email, string password)
         {
-            throw new NotImplementedException();
+            var items = await _dbService.FindItems(Collections.Users, "email", email);
+
+            if (items.Count > 1)
+                Log.Error("Found several ambigous results when looking for users!");
+
+            var item = items.FirstOrDefault();
+
+            if (item == null)
+            {
+                Log.Info("Found no users to log in");
+                return null;
+            }
+
+            string value = item.GetValue("password").ToString();
+
+            if (string.IsNullOrEmpty(value))
+            {
+                Log.Error("Could not cast password to string or it password doesnt exist!");
+                return null;
+            }
+
+            if (!password.Equals(value))
+            {
+                Log.Info("User entered the wrong password.");
+                return null;
+            }
+
+            User user = new User();
+
+            try
+            {
+                user.FirstName = (string)item.GetValue("firstName");
+                user.LastName = (string)item.GetValue("lastName");
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Couldnt create user from BSON document during login.", ex);
+                return null;
+            }
+
+            Log.Info("User entered the correct password.");
+            return user;
+
         }
 
-        public async Task<bool> LoginFacebook(string userId, string accessToken)
+        public async Task<User> LoginFacebook(string userId)
         {
-            var isAuthentic = await _fService.AuthenticateToken(accessToken, userId);
+            var items = await _dbService.FindItems(Collections.Users, "facebookID", userId);
 
-            if (isAuthentic)
+            if (items.Count > 1)
+                Log.Error("Found several ambigous results when looking for facebook users!");
+
+            var item = items.FirstOrDefault();
+
+            if (item == null)
             {
-                // TODO merge this into the create method and remove this call.
-                User user = await _uService.GetUserByFacebookId(userId);
+                Log.Info("Found no facebook users to log in");
 
-                if (user == null)
-                {
-                    user = await _uService.CreateFacebookUser(userId, accessToken);
-
-                    if (user == null)
-                        return false;
-                }
-                else
-                    return false;
-
-                user.LastLogin = DateTime.Now;
-
-                //TODO Should be done properly, not with a Mock
-                MockDB.GetInstance().UpdateUser(user);
-
-                return true; ;
+                return null;
             }
-            else
-                return false;
+
+            User user = new User();
+
+            try
+            {
+                user.FirstName = (string)item.GetValue("firstName");
+                user.LastName = (string)item.GetValue("lastName");
+                user.FacebookUserID = (string)item.GetValue("facebookID");
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Couldnt create user from BSON document during login.", ex);
+                return user;
+            }
+
+            Log.Info("Facebook user found.");
+            return user;
         }
     }
 }

@@ -9,6 +9,7 @@ using Multi_Planner.DataModel;
 using Multi_Planner.Services.Interfaces;
 using System.Threading.Tasks;
 using log4net;
+using System.Linq;
 
 namespace Multi_Planner.Services.Services
 {
@@ -51,6 +52,29 @@ namespace Multi_Planner.Services.Services
                 return false;
             }
         }
+
+        public async Task<List<BsonDocument>> FindItems(string collectionName, string field, string value)
+        {
+            try
+            {
+                Log.Info("Attepmting to find item in " + collectionName + " in database.");
+
+                var collection = database.GetCollection<BsonDocument>(collectionName);
+
+                var filter = Builders<BsonDocument>.Filter.Eq(field, value);
+                var result = (await collection.FindAsync(filter)).ToList();
+
+                Log.Info((result == null ? "Item not found " : "Found item ") + "in " + collectionName + " in database.");
+                return result;
+
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Exception while attempting to find item in " + collectionName + " in the database.", ex);
+
+                return null;
+            }
+        }
     }
 
     //TODO move this somewhere else
@@ -59,3 +83,6 @@ namespace Multi_Planner.Services.Services
         public readonly static string Users = "Users";
     }
 }
+
+    
+

@@ -8,6 +8,9 @@ using Multi_Planner.DataModel;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using log4net;
+using Multi_Planner.DataModel.ViewModels;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Multi_Planner.WebAPI.Controllers
 {
@@ -15,50 +18,85 @@ namespace Multi_Planner.WebAPI.Controllers
     {
         private readonly ILog Log;
         private readonly ILoginService _lService;
+        private readonly IUserService _uService;
 
-        public LoginController(ILog log, ILoginService lService)
+        public LoginController(ILog log, ILoginService lService, IUserService uService)
         {
-            _lService = lService;
             Log = log;
+            _lService = lService;
+            _uService = uService;
         }
 
         [HttpGet]
         [Route("api/Login")]
-        public async Task<IActionResult> Login(string username = "", string password = "")
+        public async Task<IActionResult> Login([FromBody] LoginViewModel lvm)
         {
-            string loginRes = "Empty";
+            Log.Info("Login flow started");
 
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            //validate
+            if (string.IsNullOrEmpty(lvm.email) || string.IsNullOrEmpty(lvm.password))
             {
-                loginRes = "Username or Password is empty";
+                string msg = "Missing Parameters";
+                Log.Warn(msg);
+                return BadRequest(msg);
             }
-            else
+                
+            //Act
+            User user = await _lService.Login(lvm.email, lvm.password);
+
+            if (user == null)
             {
-                var result = await _lService.Login(username, password);
+                string msg = "Could not log user in.";
+                Log.Warn(msg);
+                return BadRequest(ResponseViewModel.GetSuccessModel(msg)) ;
+            }
 
-                loginRes = "Login " + (result ? "succesful" : "failed");
-           }
+            var response = new LoginResponseViewModel(user);
 
-            return Json(loginRes);
+            //Response
+            Log.Info("Login flow Succes");
+            return Ok(response);
         }
 
         [HttpGet]
         [Route("api/Login/Facebook")]
-        public async Task<IActionResult> LoginFacebook(string userid, string accessToken)
+        public async Task<IActionResult> LoginFacebook([FromBody] FacebookLoginViewModel flvm)
         {
-            if (string.IsNullOrEmpty(userid) || string.IsNullOrEmpty(accessToken))
-            {
-                return BadRequest("Missing Parameters");
-            }
-            else
-            {
-                bool succes = await _lService.LoginFacebook(userid, accessToken);
+            Log.Info("Facebook login flow started");
 
-                if(succes)
-                    return Ok();
-                else
-                    return BadRequest();
+            if (string.IsNullOrEmpty(flvm.userid) || string.IsNullOrEmpty(flvm.firstName))
+            {
+                return BadRequest(ResponseViewModel.GetErrorModel("Missing Parameters"));
             }
+
+            User user = await _lService.LoginFacebook(flvm.userid);
+
+            if (string.IsNullOrEmpty(user.FirstName))
+            {
+                //TODO handle this in another way.
+                //used to catch cast errors in .LoginFacebook
+                return BadRequest(ResponseViewModel.GetErrorModel("Could not log facebook user in."));
+            }
+            else if (user != null)
+            {
+                // user exists
+                return Ok(ResponseViewModel.GetSuccessModel("User exists.")) ;
+            }
+
+            //User doesnt exist, create it.
+            user = await _uService.CreateFacebookUser(flvm.userid, flvm.firstName);
+
+            if (user == null)
+            {
+                string msg = "Could not create facebook user.";
+                Log.Warn(msg);
+                return BadRequest(ResponseViewModel.GetSuccessModel(msg));
+            }
+
+            //Response
+            Log.Info("Login flow Succes");
+            return Ok(ResponseViewModel.GetSuccessModel("Facebook user was logged in."));
+
         }
     }
 }

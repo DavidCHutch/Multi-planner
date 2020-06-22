@@ -24,7 +24,7 @@ namespace Multi_Planner.Services.Services
 
         public async Task<User> CreateUser(string firstName, string lastName, string email, string password)
         {
-
+            Log.Info("Creating User");
             User user = new User();
             user.FirstName = firstName;
             user.LastName = lastName;
@@ -32,10 +32,12 @@ namespace Multi_Planner.Services.Services
             user.ID = Guid.NewGuid();
             user.DateCreated = DateTime.Now;
             user.LastLogin = DateTime.Now;
+            user.FacebookUserID = "";
 
             //TODO Hash and protect this.
             user.Password = password;
 
+            Log.Info("Converting data to BSON.");
             var document = new BsonDocument
             {
                 { "ID", user.ID.ToString() },
@@ -44,13 +46,12 @@ namespace Multi_Planner.Services.Services
                 { "Email", user.Email },
                 { "LastLogin", user.LastLogin},
                 { "DateCreated", user.DateCreated},
-                { "FacebookUserID", "" },
-                { "FacebookAcessToken", "" }
+                { "FacebookUserID", "" }
             };
 
-            bool succes = await _dbService.InsertItem(Collections.Users, document);
+            bool success = await _dbService.InsertItem(Collections.Users, document);
 
-            if (succes)
+            if (success)
             {
                 return user;
             }
@@ -61,28 +62,42 @@ namespace Multi_Planner.Services.Services
 
         }
 
-        public async Task<User> CreateFacebookUser(string userId, string accessToken)
+        public async Task<User> CreateFacebookUser(string userId, string name)
         {
-            //TODO get info from facebook service
-            User user = new User()
+            Log.Info("Creating Facebook User");
+
+            User user = new User();
+            user.FirstName = name;
+            user.LastName = "";
+            user.Email = "";
+            user.ID = Guid.NewGuid();
+            user.DateCreated = DateTime.Now;
+            user.LastLogin = DateTime.Now;
+            user.Password = "";
+            user.FacebookUserID = userId;
+
+            Log.Info("Converting data to BSON.");
+            var document = new BsonDocument
             {
-                FacebookUserID = userId,
-                FacebookAcessToken = new FacebookUserToken(accessToken, 0)// TODO get expiration date...
+                { "ID", user.ID.ToString() },
+                { "FirstName", user.FirstName },
+                { "LastName", user.LastName },
+                { "Email", user.Email },
+                { "LastLogin", user.LastLogin},
+                { "DateCreated", user.DateCreated},
+                { "FacebookUserID", user.FacebookUserID }
             };
 
-            MockDB.GetInstance().SaveUser(user);
+            bool success = await _dbService.InsertItem(Collections.Users, document);
 
-            return user;
-        }
-
-        public async Task<User> GetUserByFacebookId(string userId)
-        {
-            User user;
-            int count; // Purly for dev purpose. Remove this before release.
-            
-            (user, count) = MockDB.GetInstance().RetrieveUserByFacebookId(userId);
-
-            return user;
+            if (success)
+            {
+                return user;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Multi_Planner.DataModel.ViewModels
 {
-    public class ErrorViewModel
+    public class FacebookLoginViewModel
     {
-        public string Type { get; set; }
-        public string Message { get; set; }
+        public string userid { get; set; }
+        public string firstName { get; set; }
     }
 }
