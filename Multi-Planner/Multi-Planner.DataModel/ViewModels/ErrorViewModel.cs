@@ -6,7 +6,7 @@ namespace Multi_Planner.DataModel.ViewModels
 {
     public class ErrorViewModel
     {
-        public string Type;
-        public string Message;
+        public string Type { get; set; }
+        public string Message { get; set; }
     }
 }
