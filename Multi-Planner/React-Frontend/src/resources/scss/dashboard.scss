@@ -1,0 +1,14 @@
+#sidebar-wrapper{
+    min-height: 100vh !important;
+    padding-left: 0 !important;
+}
+#sidebar-wrapper .sidebar-heading {
+    // padding: 0.875rem 1.25rem;
+    font-size: 1.2rem;
+    padding-left: 0px !important;
+}
+
+#page-content-wrapper {
+    min-width: 0;
+    width: 100%;
+}

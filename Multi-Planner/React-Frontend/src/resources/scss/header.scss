@@ -1,0 +1,48 @@
+.headerContainer{
+    height: auto;
+    margin-bottom: 56px;
+}
+
+.toolbar{
+    position: fixed;
+    width: 100%;
+    background-color: black;
+    top: 0;
+
+    &__navigation{
+        display: flex;
+        height: 100%;
+        align-items: center;
+        padding: 0 1rem;
+    }
+    &__logo a{
+        color: white;
+        text-decoration: none;
+        font-size: 1.5rem;
+    }
+    &__item{
+        a{
+            color: white;
+            text-decoration: none;
+            &:hover{
+                color: orange;
+            }
+            &:active{
+                color: orange;
+            }
+        }
+        ul{
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        li{
+            padding: 0 0.5rem;
+        }
+    }
+    &__spacer{
+        flex: 1;
+    }
+}
