@@ -6,7 +6,6 @@ import Facebook from '../Facebook';
 import '../../resources/scss/loginform.scss';
 
 class LoginForm extends Component{
-
   constructor(props){
     super(props);
     this.state = {
@@ -54,7 +53,7 @@ class LoginForm extends Component{
     })
 
     try{
-      let res = await fetch('/api/login', {
+      let res = await fetch('https://localhost:44382/api/login', {
         method: 'post',
         headers: {
           'Accept': 'application/json',
@@ -67,15 +66,19 @@ class LoginForm extends Component{
       })
 
       let result = await res.json();
-      if(result && result.success){
+      if(result && res.ok){
         sessionStorage.setItem('userName', JSON.stringify(result.name));
         sessionStorage.setItem('userPicture', JSON.stringify(result.picture));
         sessionStorage.setItem('isloggedIn', true);
         //TODO REDIRECT TO MAIN PAGE
       }
-      else if(result && result.success === false){
+      else if(result && res.ok === false){
         this.resetForm();
         alert(result.msg);
+      }
+      else{
+        this.resetForm();
+        alert(result.message);
       }
     }
 

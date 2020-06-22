@@ -2,7 +2,9 @@ import React from "react";
 
 function getData(){
     let data = sessionStorage.getItem('FacebookData');
-    data = JSON.parse(data);
+    if(typeof(data) ===  'object'){
+        JSON.parse(data);
+    }
     return data;
 }
 

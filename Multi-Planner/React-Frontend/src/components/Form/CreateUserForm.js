@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 // import ImputField from './InputField';
+import { Redirect } from 'react-router-dom';
 import SubmitButton from '../Buttons/SubmitButton';
 import InputField from '../InputField';
 import Facebook from '../Facebook';
@@ -15,11 +16,14 @@ const initialState= {
     emailErr: '',
     passwordErr: '',
     cpasswordErr: '',
-    buttonDisabled: false
+    buttonDisabled: false,
+    // redirectTo: null 
 }
 
+
 class CreateUserForm extends Component{
-  constructor(props){
+  
+  constructor(props, context){
     super(props);
     this.state = initialState;
   }
@@ -43,58 +47,51 @@ class CreateUserForm extends Component{
     let passwordErr = '';
     let cpasswordErr = '';
 
-
     if(!this.state.fname || !this.state.lname || !this.state.email || !this.state.password || !this.state.cpassword){
         if(!this.state.fname){
             fnameErr = "Invalid first name";
-            console.log('No first name');
         }
         if(!this.state.email || !this.state.email.includes("@")){
             emailErr = "Invalid email";
-            console.log('EMAIL NOT VALID');
         }
         if(!this.state.password){
             passwordErr = "Invalid password";
-            console.log('No password name');
         }
         if(!this.state.cpassword || this.state.cpassword !== this.state.password){
             cpasswordErr = "Password doesn't match";
-            console.log('No check password name');
         }
         this.setState({fnameErr, emailErr, passwordErr, cpasswordErr});
         return;
     }
 
-    this.setState({
-      buttonDisabled: true
-    })
-
-    try{
-        //Call backend api and verify that it doesnt exist, 
-      let res = await fetch('/api/login', {
+    try{  
+      let res = await fetch('https://localhost:44382/api/user/create', {
         method: 'post',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          fname: this.state.fname,
-          lname: this.state.lname,
-          email: this.state.email,
-          password: this.state.password
+          firstName: this.state.fname,
+          lastName: this.state.lname,
+          password: this.state.password,
+          email: this.state.email
         })
       })
 
       let result = await res.json();
-      if(result && result.success){
-        //TODO REDIRECT TO LOGIN PAGE
+      if(result.success && res.ok){
+        window.location.reload(false);
       }
-      else if(result && result.success === false){
+      else if(result.success && res.ok === false){
         this.setState(initialState);
-        alert(result.msg);
+        alert(res.statusText);
+      }
+      else{
+        this.setState(initialState);
+        alert(result.message, res.statusText);
       }
     }
-
     catch(e){
       console.log(e);
       this.setState(initialState);
