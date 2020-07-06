@@ -57,7 +57,7 @@ namespace Multi_Planner.Services.Services
         {
             try
             {
-                Log.Info("Attepmting to find item in " + collectionName + " in database.");
+                Log.Info("Attemp1ting to find item in " + collectionName + " in database.");
 
                 var collection = database.GetCollection<BsonDocument>(collectionName);
 
