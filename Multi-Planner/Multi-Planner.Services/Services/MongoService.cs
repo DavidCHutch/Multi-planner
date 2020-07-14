@@ -16,6 +16,7 @@ namespace Multi_Planner.Services.Services
 
     public class MongoService : IMongoService
     {
+        // TODO This is an old version, check if its needed then remove
         //TODO Get from somewhere secure
         readonly string ConnectionString = "mongodb://127.0.0.1:27017/?gssapiServiceName=mongodb";
         readonly string DatabaseName = "Multi-Planner-DB";
@@ -57,7 +58,7 @@ namespace Multi_Planner.Services.Services
         {
             try
             {
-                Log.Info("Attemp1ting to find item in " + collectionName + " in database.");
+                Log.Info("Attempting to find item in " + collectionName + " in database.");
 
                 var collection = database.GetCollection<BsonDocument>(collectionName);
 

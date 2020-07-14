@@ -18,7 +18,7 @@ namespace Multi_Planner.WebAPI.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return Json("Home");
+            return View();
         }
 
         [Route("api/Exception")]

@@ -40,6 +40,8 @@ namespace Multi_Planner.WebAPI
         {
             services.AddControllers();
 
+            services.AddRazorPages();
+
             services.AddCors();
             services.AddScoped(factory => LogManager.GetLogger(GetType()));
 

@@ -12,6 +12,7 @@ namespace Multi_Planner.Services.Services
 {
     public class UserService : IUserService
     {
+        // TODO This is an old version, check if its needed then remove
         private readonly ILog Log;
         private readonly IMongoService _dbService;
         

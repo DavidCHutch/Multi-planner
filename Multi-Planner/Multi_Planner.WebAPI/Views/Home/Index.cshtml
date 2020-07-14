@@ -1,0 +1,64 @@
+﻿@page
+@model Multi_Planner.WebAPI.View.Home.IndexModel
+@{
+    <body>
+        <div class="LoginArea">
+            <div>
+                <input type="text" placeholder="Email" id="LoginEmail" >
+                <input type="text" placeholder="Password" id="LoginPassword">
+                <br/>
+                <input type="button" value="Login" onclick="LoginRequest()"/>
+            </div>
+        </div>
+        <div class="ReponseArea">
+            <textarea id="ResponseText">Nothing...</textarea>
+        </div>
+    </body>
+
+    <script>
+        baseUrl = 'https://localhost:44382/'
+
+        function LoginRequest()
+        {
+            emailVar = document.getElementById("LoginEmail").value
+            passwordVar = document.getElementById("LoginPassword").value
+
+            data = JSON.stringify({ email: emailVar, password: passwordVar });
+
+            RequestCall(baseUrl + 'api/Login', "POST", data);
+        }        
+
+        function RequestCall(url, Method, data ) {
+            fetch(url,
+                {
+                    method: Method,
+                    headers: {
+                        'Accept': 'application/json, text/plain, */*',
+                        'Content-Type': 'application/json'
+                    },
+                    body: data
+                })
+                .then(result => {
+                    if (!result.ok) throw result;
+                    return result.json();
+                })
+                .then(
+                    (response) => PrintResponse(response)
+                )
+                .catch(error => {
+                    console.log(error);
+                    PrintResponse(error.status)
+
+                    error.text().then((body) => PrintResponse(error.status + " " + body));
+                });
+        }
+
+        function PrintResponse(response) {
+            console.log(response);
+            elem = document.getElementById("ResponseText");
+            elem.textContent = response;
+            
+        }
+    </script>
+
+}

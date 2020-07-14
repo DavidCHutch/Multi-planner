@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Multi_Planner.Services.Services
 {
+    // TODO This is an old version, check if its needed then remove
     public class FacebookService : IFacebookService
     {
         public async Task<bool> AuthenticateToken(string accessToken, string userId = "")

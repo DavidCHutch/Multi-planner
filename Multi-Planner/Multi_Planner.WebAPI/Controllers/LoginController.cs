@@ -27,7 +27,7 @@ namespace Multi_Planner.WebAPI.Controllers
             _uService = uService;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("api/Login")]
         public async Task<IActionResult> Login([FromBody] LoginViewModel lvm)
         {
@@ -40,15 +40,15 @@ namespace Multi_Planner.WebAPI.Controllers
                 Log.Warn(msg);
                 return BadRequest(msg);
             }
-                
-            //Act
-            User user = await _lService.Login(lvm.email, lvm.password);
 
+            //Act
+            //User user = await _lService.Login(lvm.email, lvm.password);
+            User user = null;
             if (user == null)
             {
                 string msg = "Could not log user in.";
                 Log.Warn(msg);
-                return BadRequest(ResponseViewModel.GetSuccessModel(msg)) ;
+                return BadRequest(msg) ;
             }
 
             var response = new LoginResponseViewModel(user);
@@ -66,7 +66,7 @@ namespace Multi_Planner.WebAPI.Controllers
 
             if (string.IsNullOrEmpty(flvm.userid) || string.IsNullOrEmpty(flvm.firstName))
             {
-                return BadRequest(ResponseViewModel.GetErrorModel("Missing Parameters"));
+                return BadRequest("Missing Parameters");
             }
 
             User user = await _lService.LoginFacebook(flvm.userid);
@@ -75,12 +75,12 @@ namespace Multi_Planner.WebAPI.Controllers
             {
                 //TODO handle this in another way.
                 //used to catch cast errors in .LoginFacebook
-                return BadRequest(ResponseViewModel.GetErrorModel("Could not log facebook user in."));
+                return BadRequest("Could not log facebook user in.");
             }
             else if (user != null)
             {
                 // user exists
-                return Ok(ResponseViewModel.GetSuccessModel("Facebook user was logged in.")) ;
+                return Ok("Facebook user was logged in.") ;
             }
 
             //User doesnt exist, create it.
@@ -90,12 +90,12 @@ namespace Multi_Planner.WebAPI.Controllers
             {
                 string msg = "Could not create facebook user.";
                 Log.Warn(msg);
-                return BadRequest(ResponseViewModel.GetSuccessModel(msg));
+                return BadRequest(msg);
             }
 
             //Response
             Log.Info("Login flow Succes");
-            return Ok(ResponseViewModel.GetSuccessModel("Facebook user was created and logged in."));
+            return Ok("Facebook user was created and logged in.");
 
         }
     }
